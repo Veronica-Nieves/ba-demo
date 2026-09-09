@@ -1,2 +1,2 @@
-# ba-demo
-Intro-birthday-adventure
+# birthday-adventure
+birthday-adventure

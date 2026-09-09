@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    >
+
+    <meta name="theme-color" content="#090b10">
+
+    <title>Una pequeña aventura</title>
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <main id="game">
+
+        <!--
+        ========================================
+        PANTALLA 1: TÍTULO
+        ========================================
+        -->
+        <section
+            id="title-screen"
+            class="screen active"
+            aria-label="Pantalla de inicio"
+        >
+            <div class="title-background">
+                <div class="title-content">
+
+                    <p class="title-small">
+                        UNA PEQUEÑA
+                    </p>
+
+                    <h1 class="game-title">
+                        AVENTURA
+                    </h1>
+
+                    <p class="title-subtitle">
+                        PARA TI
+                    </p>
+
+                    <button
+                        id="start-button"
+                        class="primary-button"
+                        type="button"
+                    >
+                        ▶ Comenzar
+                    </button>
+
+                </div>
+            </div>
+        </section>
+
+
+        <!--
+        ========================================
+        PANTALLA 2: DESPERTAR
+        ========================================
+        -->
+        <section
+            id="wake-screen"
+            class="screen"
+            aria-label="Inicio de la aventura"
+        >
+            <div class="dark-scene">
+
+                <div class="center-message">
+                    <p id="wake-message">
+                        ...
+                    </p>
+                </div>
+
+                <button
+                    id="wake-button"
+                    class="invisible-action"
+                    type="button"
+                    aria-label="Continuar"
+                >
+                    Continuar
+                </button>
+
+            </div>
+        </section>
+
+
+        <!--
+        ========================================
+        PANTALLA 3: NOMBRE
+        ========================================
+        -->
+        <section
+            id="name-screen"
+            class="screen"
+            aria-label="Nombre del jugador"
+        >
+            <div class="name-scene">
+
+                <div class="name-panel">
+
+                    <p class="mystery-label">
+                        ???
+                    </p>
+
+                    <p class="name-question">
+                        Antes de continuar,
+                        introduce tu nombre.
+                    </p>
+
+                    <form id="name-form">
+
+                        <input
+                            id="player-name-input"
+                            class="name-input"
+                            type="text"
+                            maxlength="20"
+                            autocomplete="off"
+                            placeholder="Nombre"
+                            required
+                        >
+
+                        <button
+                            class="primary-button"
+                            type="submit"
+                        >
+                            Confirmar
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!--
+        ========================================
+        PANTALLA 4: HABITACIÓN
+        ========================================
+        -->
+        <section
+            id="room-screen"
+            class="screen"
+            aria-label="Habitación"
+        >
+            <div
+                id="room-scene"
+                class="game-scene room-scene"
+            >
+
+                <!-- Sergio oficial -->
+                <div
+                    id="room-player"
+                    class="room-player"
+                    aria-label="Jugador"
+                >
+                    <img
+                        class="room-player-sprite"
+                        src="assets/characters/sergio/front-idle.png"
+                        alt=""
+                        draggable="false"
+                    >
+                </div>
+
+                <!-- Salida -->
+                <button
+                    id="room-exit"
+                    class="room-exit-button"
+                    type="button"
+                >
+                    Salir
+                    <span>▶</span>
+                </button>
+
+            </div>
+
+            <!-- Diálogo de la habitación -->
+            <div
+                id="room-dialog"
+                class="dialog-box hidden"
+            >
+                <p
+                    id="room-dialog-name"
+                    class="dialog-name mystery-name"
+                >
+                    ...
+                </p>
+
+                <p
+                    id="room-dialog-text"
+                    class="dialog-text"
+                ></p>
+
+                <button
+                    id="room-dialog-next"
+                    class="dialog-next"
+                    type="button"
+                    aria-label="Continuar diálogo"
+                >
+                    ▼
+                </button>
+            </div>
+        </section>
+
+
+        <!--
+        ========================================
+        PANTALLA 5: ALDEA DE SAPOPINGA
+        ========================================
+        -->
+        <section
+            id="outside-screen"
+            class="screen"
+            aria-label="Aldea"
+        >
+            <div
+                id="village-scene"
+                class="game-scene village-scene"
+            >
+
+                <!-- Fondo -->
+                <div class="village-sky"></div>
+                <div class="village-hills"></div>
+
+                <!-- Río -->
+                <div class="river"></div>
+
+                <!--
+                ========================================
+                LETRERO DEL RÍO
+                ========================================
+                -->
+                <div
+                    id="river-sign"
+                    class="river-sign undiscovered"
+                    data-interaction="river-sign"
+                >
+                    <div class="sign-board">
+                        <span class="hidden-place-name">
+                            RÍO UNIVERSIDAD
+                        </span>
+                    </div>
+
+                    <div class="sign-post"></div>
+                </div>
+
+
+                <!--
+                ========================================
+                EDIFICIOS EXISTENTES
+                ========================================
+                -->
+
+                <!-- Casa cerrada -->
+                <button
+                    id="closed-house"
+                    class="world-building closed-house"
+                    type="button"
+                    aria-label="Edificio"
+                    tabindex="-1"
+                >
+                    <span class="house-roof"></span>
+                    <span class="house-body"></span>
+                    <span class="house-door"></span>
+                </button>
+
+                <!-- Casa misteriosa -->
+                <button
+                    id="treasure-house"
+                    class="world-building treasure-house"
+                    type="button"
+                    aria-label="Edificio"
+                    tabindex="-1"
+                >
+                    <span class="house-roof"></span>
+                    <span class="house-body"></span>
+                    <span class="house-door"></span>
+                </button>
+
+                <!-- Tienda -->
+                <button
+                    id="village-shop"
+                    class="world-building village-shop undiscovered"
+                    type="button"
+                    aria-label="Edificio"
+                    tabindex="-1"
+                >
+                    <span class="shop-roof"></span>
+                    <span class="shop-body"></span>
+
+                    <span class="shop-sign">
+                        <span class="hidden-place-name">
+                            TIENDA
+                        </span>
+                    </span>
+                </button>
+
+                <!-- Casa desconocida -->
+                <button
+                    id="hint-house"
+                    class="world-building hint-house"
+                    type="button"
+                    aria-label="Edificio"
+                    tabindex="-1"
+                >
+                    <span class="house-roof"></span>
+                    <span class="house-body"></span>
+                    <span class="house-door"></span>
+                </button>
+
+
+                <!--
+                ========================================
+                CASA INICIAL
+                Sergio acaba de salir de aquí
+                ========================================
+                -->
+                <div
+                    id="starting-house"
+                    class="world-building starting-house"
+                    aria-label="Casa inicial"
+                >
+                    <span class="house-roof"></span>
+                    <span class="house-body"></span>
+                    <span class="house-door"></span>
+                </div>
+
+
+                <!--
+                ========================================
+                LETRERO DE SAPOPINGA
+                El texto está oculto inicialmente
+                ========================================
+                -->
+                <div
+                    id="village-name-sign"
+                    class="village-name-sign undiscovered"
+                    data-interaction="village-sign"
+                >
+                    <div class="village-sign-board">
+
+                        <span
+                            class="sign-small hidden-place-name"
+                        >
+                            BIENVENIDO A
+                        </span>
+
+                        <span
+                            class="sign-name hidden-place-name"
+                        >
+                            ALDEA DE SAPOPINGA
+                        </span>
+
+                    </div>
+
+                    <div class="village-sign-post"></div>
+                </div>
+
+
+                <!--
+                ========================================
+                POSTE DE ALTAVOCES
+                ========================================
+                -->
+                <div
+                    id="speaker-post"
+                    class="speaker-post"
+                    data-interaction="speaker"
+                    aria-label="Poste con altavoces"
+                >
+                    <div class="speaker-cluster">
+
+                        <span
+                            class="speaker speaker-left"
+                        ></span>
+
+                        <span
+                            class="speaker speaker-center"
+                        ></span>
+
+                        <span
+                            class="speaker speaker-right"
+                        ></span>
+
+                    </div>
+
+                    <div class="speaker-pole"></div>
+
+                    <div class="speaker-base"></div>
+                </div>
+
+
+                <!--
+                ========================================
+                FUTURA UBICACIÓN DE RANA
+                ========================================
+                -->
+                <div
+                    id="rana-location"
+                    class="rana-location hidden"
+                    aria-hidden="true"
+                ></div>
+
+
+                <!--
+                ========================================
+                SERGIO
+                ========================================
+                -->
+                <div
+                    id="village-player"
+                    class="village-player"
+                    aria-label="Jugador"
+                >
+                    <img
+                        id="village-player-sprite"
+                        class="player-sprite"
+                        src="assets/characters/sergio/front-idle.png"
+                        alt=""
+                        draggable="false"
+                    >
+                </div>
+
+
+                <!--
+                ========================================
+                CRUCETA
+                ========================================
+                -->
+                <div
+                    id="movement-controls"
+                    class="movement-controls"
+                    aria-label="Controles de movimiento"
+                >
+                    <button
+                        class="move-button move-up"
+                        data-direction="up"
+                        type="button"
+                        aria-label="Mover arriba"
+                    >
+                        ▲
+                    </button>
+
+                    <button
+                        class="move-button move-left"
+                        data-direction="left"
+                        type="button"
+                        aria-label="Mover izquierda"
+                    >
+                        ◀
+                    </button>
+
+                    <button
+                        class="move-button move-right"
+                        data-direction="right"
+                        type="button"
+                        aria-label="Mover derecha"
+                    >
+                        ▶
+                    </button>
+
+                    <button
+                        class="move-button move-down"
+                        data-direction="down"
+                        type="button"
+                        aria-label="Mover abajo"
+                    >
+                        ▼
+                    </button>
+                </div>
+
+
+                <!--
+                ========================================
+                BOTÓN A
+                ========================================
+                -->
+                <div
+                    id="action-controls"
+                    class="action-controls"
+                >
+                    <span
+                        id="action-label"
+                        class="action-label"
+                    ></span>
+
+                    <button
+                        id="action-button"
+                        class="action-button"
+                        type="button"
+                        aria-label="Interactuar"
+                    >
+                        A
+                    </button>
+                </div>
+
+            </div>
+
+
+            <!--
+            ========================================
+            DIÁLOGO GENERAL DE LA ALDEA
+            ========================================
+            -->
+            <div
+                id="village-dialog"
+                class="dialog-box hidden"
+            >
+                <p
+                    id="village-dialog-name"
+                    class="dialog-name mystery-name"
+                >
+                    ...
+                </p>
+
+                <p
+                    id="village-dialog-text"
+                    class="dialog-text"
+                ></p>
+
+                <button
+                    id="village-dialog-close"
+                    class="dialog-next"
+                    type="button"
+                    aria-label="Cerrar diálogo"
+                >
+                    ▼
+                </button>
+            </div>
+        </section>
+
+
+        <!--
+        ========================================
+        PANTALLA 6: CASA MISTERIOSA
+        ========================================
+        -->
+        <section
+            id="treasure-screen"
+            class="screen"
+            aria-label="Casa misteriosa"
+        >
+            <div class="game-scene treasure-room">
+
+                <button
+                    id="treasure-back"
+                    class="scene-back"
+                    type="button"
+                >
+                    ◀ Salir
+                </button>
+
+                <div class="treasure-room-content">
+
+                    <p class="treasure-symbol">
+                        ?
+                    </p>
+
+                    <p class="treasure-room-message">
+                        Parece que alguien dejó algo aquí.
+                    </p>
+
+                    <button
+                        id="activate-treasure-map"
+                        class="primary-button treasure-button"
+                        type="button"
+                    >
+                        Examinar
+                    </button>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!--
+        ========================================
+        PANTALLA 7: MAPA DEL TESORO
+        ========================================
+        -->
+        <section
+            id="treasure-map-screen"
+            class="screen"
+            aria-label="Mapa del tesoro"
+        >
+            <div class="treasure-map-interface">
+
+                <div class="treasure-map-header">
+
+                    <p class="map-status">
+                        BUSCANDO...
+                    </p>
+
+                    <p
+                        id="location-status"
+                        class="location-status"
+                    >
+                        Esperando señal.
+                    </p>
+
+                </div>
+
+                <div class="house-map">
+
+                    <div class="map-room room-one">
+                        <span>
+                            Habitación
+                        </span>
+                    </div>
+
+                    <div class="map-room room-two">
+                        <span>
+                            Zona principal
+                        </span>
+                    </div>
+
+                    <div class="map-room room-three">
+                        <span>
+                            ?
+                        </span>
+                    </div>
+
+                    <div class="treasure-marker">
+                        ×
+                    </div>
+
+                </div>
+
+                <p class="map-message">
+                    El tesoro está más cerca de lo que parece.
+                </p>
+
+                <button
+                    id="close-treasure-map"
+                    class="secondary-button"
+                    type="button"
+                >
+                    Volver
+                </button>
+
+            </div>
+        </section>
+
+
+        <!--
+        ========================================
+        TRANSICIÓN
+        ========================================
+        -->
+        <div
+            id="fade-layer"
+            class="fade-layer"
+            aria-hidden="true"
+        ></div>
+
+    </main>
+
+    <script src="game.js"></script>
+</body>
+</html>
